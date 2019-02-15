@@ -1,9 +1,6 @@
-#!/usr/bin/env python
-
 """
 postProc.py:
-Module of functions for post processing of retinal 2P data. Other post processing functions for general 
-lab usage are in classFun.py
+Module of functions for post processing of retinal 2P data.
 """
 
 __author__      = "Yannik Bauer"
@@ -21,8 +18,6 @@ import matplotlib.pyplot as plt
 def normalize(array, mode='z'):
     """
     normalize(array, mode='z'): array = [tPts, trial, cell/cluster]
-    Note: to achieve correct scaling, either subtract min and divide by max in two steps;
-    or do in one step by also subtracting min in the division term!
     """ 
 
     if mode is 'z': # z-normalization
@@ -70,7 +65,6 @@ def interpNewSRate(trace=None, newSRate=None, duration=None, kind='linear'):
     traceInterp : ndarray
         interpolated trace.
     """
-    # TODO: create analogous function to bring two traces to same sampling rates: interpSameSRate
     
     # Get number of samples in input trace
     nSamplesOld = trace.shape[0] # e.g. nSamples in OGB1 ≈ 249        
@@ -149,8 +143,6 @@ def deconv(trace, fps=None, method=None, smooth=False, norm=True):
         deconvolved traces
     trace : ndarray
         smoothed trace
-        
-    TODO: decide which smoothing sigma is reasonable
     """
     
     # Smooth trace with Gaussian filter
@@ -280,30 +272,25 @@ def getCaKern(kernel='None', fps=None, smooth=True):
     ------
     kern : array
         processed kernel
-        
-    TODO: 
-     - encode loadDir, sRate
-     - maybe fit decay constant
     """
     
     import scipy
     import warnings
     
     # Load calcium kernel
-    # Extracted by Miro from gcamp6 data by taking cells w good responses to DN stim (n≈20), 
-    # then thresholding ca-events, then taking average event, to output a kernel.
+    # Extracted from 2P Calcium data by taking cells w good responses to dense noise (DN) stim (n≈20), 
+    # then thresholding Calcium-events, then taking average event, to output a kernel.
     try:
         if kernel == 'gcamp6fKern':
-            caKern = scipy.io.loadmat("../../data/2P/proc/gcamp6f_kern.mat")
+            caKern = scipy.io.loadmat("../../data/2P/original/gcamp6f_kern.mat")
         elif kernel == 'ogb1Kern':
-            caKern = scipy.io.loadmat("../../data/2P/proc/ogb1_kern.mat")
+            caKern = scipy.io.loadmat("../../data/2P/original/ogb1_kern.mat")
             
         kern = caKern['trace_norm_auc'][0] # Use kernel normalized by AUC
         ts = caKern['ts_trace'][0] # timestamps
         
     except:
-        raise FileNotFoundError('No calcium kernel found. Aborting.'\
-                                'TODO: in that case consider making it yourself: makeCaKernel().')
+        raise FileNotFoundError('No calcium kernel file found. Aborting.')
 
     # Resample kernel to sRate of trace (and optionally smooth)
     dur = ts[-1] - ts[0] # kernel duration
@@ -313,7 +300,7 @@ def getCaKern(kernel='None', fps=None, smooth=True):
         kern = interpNewSRate(kern, fps, dur, kind='linear')
 
     # Cut kernel: peak to 10th percentile
-    # NOTE: full kernel produced ringing artefacts in deconvolution - reason unclear
+    # NOTE: full kernel produced ringing artefacts in deconvolution
     kern = kern[np.argmax(kern):-1]
     kern = kern[np.where(kern >= np.percentile(kern,10))]
     

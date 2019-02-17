@@ -111,6 +111,7 @@ code/.idea/
 /code/notebooks/getOgb1Data_arch.ipynb
 /code/notebooks/corrGcamp6fOgb1_arch.ipynb
 /code/notebooks/match_index_dev.ipynb
+/code/notebooks/testGcamp6fData.ipynb
 
 # Ignore file types
 *.DS_store

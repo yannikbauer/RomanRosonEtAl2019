@@ -11,7 +11,7 @@
 
 
 # Exceptions for specific files
-#!/data/original/INFO.md
+!/dlgn-p_rgc_assignment/results/*
 
 # Ignore file types
 *.DS_store

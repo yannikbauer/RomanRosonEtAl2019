@@ -99,7 +99,7 @@ ENV/
 
 # Ignore specific folders
 data/
-results/
+#results/
 code/ext/
 code/.idea/
 

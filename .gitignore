@@ -1,0 +1,21 @@
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+.idea/*
+
+# Ignore specific folders
+/code/.idea/
+/dlgn-p_rgc_assignment/data/*
+/rgc2lgn_model/data/*
+
+
+# Exceptions for specific files
+#!/data/original/INFO.md
+
+# Ignore file types
+*.DS_store
+**/.smbdelete*
+**/Untitled*
+
+

@@ -1,0 +1,1 @@
+{"DBNAME": "dj_d", "connection.init_function": null, "display.width": 25, "database.user": "write", "database.host": "huxley.neuro.bzm", "database.reconnect": false, "display.limit": 50, "database.password": "route1", "loglevel": "INFO", "database.port": 3306, "display.show_tuple_count": true, "safemode": true}

@@ -8,7 +8,8 @@
 /code/.idea/
 /dlgn-p_rgc_assignment/data/*
 /rgc2lgn_model/data/*
-
+/lgn_rf_depth/data/*
+/lgn_rf_depth/results/*
 
 # Exceptions for specific files
 !/dlgn-p_rgc_assignment/results/*

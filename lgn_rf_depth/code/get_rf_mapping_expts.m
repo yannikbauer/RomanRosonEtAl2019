@@ -2,9 +2,18 @@
 % Gets RF mapping experiments (using sparse noise stimulus) for units used
 % in Roman_Roson_el_al and writes track file used for later export of
 % filtered MUA recordings.
-% NEED TO FIRST RUN startup_lmu to connect to TU_DJ:
-% in MATLAB terminal, type startup_lmu
 
+%% Project path
+cd(fileparts(which(mfilename))); % changes working dir to current file
+addpath(genpath('../../')); % add entire project path, incl. general code used across analyses
+
+%% Check DataJoint connection
+if ~exist('DJ_DIRS')
+    startup_lmu;
+end
+
+%% Parameters
+saveDir = '../data/';
 
 %% GET KEYS USED FOR UNITS IN OTHER ANALYSES OF ROMAN_ROSON_ET_AL_2018
 corr_p      = 0.001;         % 0.001; corr_p represents the wilcoxon ransum correlation for between/withing segments
@@ -14,6 +23,7 @@ r           = 0.65;          % 0.7; regression index
 type        = 3;
 
 unitList = getAllUnits(corr_p, qi, cluster_qi, r, type);
+% save(fullfile(saveDir, 'dlgn_unit_list.mat'), 'unitList');
 
 %% Get corresponding sparse noise experiments
 
@@ -52,11 +62,11 @@ for i = 1:length(sn_exp)
     end
 end
 
-save('sn_exp.mat', 'sn_exp');
+save(fullfile(saveDir, 'sn_exp.mat'), 'sn_exp');
 
 %% Write file names to text file (.track)
 
-fileID = fopen('sn_file_list.track', 'w');
+fileID = fopen(fullfile(saveDir, 'sn_file_list.track'), 'w');
 formatSpec = '%s\n';
 
 for i = 1:length(sn_exp)
